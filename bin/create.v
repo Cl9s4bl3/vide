@@ -29,44 +29,23 @@ fn main(){
 	}
 	args = non_flag_args.clone()
 
-	for arg in args{
+	for arg in args {
 
 		if verbose {
 			println('DEBUG: Processing "$arg"')
 		}
 
-		if os.exists(arg) && !overwrite{
+		if os.exists(arg) && !overwrite {
 			eprintln('"$arg" already exists. Skipping...')
 			continue
 		}
 
-		if overwrite {
-
-			if verbose {
-				println('DEBUG: "$arg" is being overwritten')
-			}
-
-			if !os.is_dir(arg){
-				eprintln('"$arg" isn\'t a directory. Skipping...')
-				continue
-			}
-
-			if verbose {
-				println('DEBUG: "$arg" is being deleted (to be overwritten)')
-			}
-
-			os.rmdir_all(arg) or { 
-				eprintln('Failed to remove "$arg". Error $err')
-				continue
-			}
-		}
-
 		if verbose {
-			println('DEBUG: Making directory: "$arg"')
+			println('DEBUG: Creating "$arg"')
 		}
-		
-		os.mkdir(arg) or { 
-			eprintln('Failed to create "$arg". Error $err')
+
+		os.create(arg) or { 
+			eprintln('Failed to create "$arg". Error: $err')
 			continue
 		}
 	}
