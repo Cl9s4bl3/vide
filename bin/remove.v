@@ -4,7 +4,7 @@ import os
 
 fn is_directory_empty(path string) bool {
 	directory_items := os.ls(path) or { 
-		eprintln('Failed to read "$path": Error: $err')
+		eprintln('Failed to read "${path}": Error: ${err}')
 		return false
 	}
 
@@ -24,7 +24,7 @@ fn main() {
 
 	if args.len < 1 {
 		eprintln("Not enough arguments provided");
-		exit(1)
+		exit(2)
 	}
 
 	mut non_flag_args := []string{}
@@ -35,7 +35,7 @@ fn main() {
 				"--directory" { directory = true }
 				"--verbose" { verbose = true }
 				else {
-					eprintln('Discarding invalid flag "$arg"')
+					eprintln('Discarding invalid flag "${arg}"')
 				}
 			}
 		} else {
@@ -46,18 +46,18 @@ fn main() {
 
 	for arg in args {
 		if verbose {
-			println('DEBUG: Processing "$arg"')
+			println('DEBUG: Processing "${arg}"')
 		}
 
 		if !os.exists(arg){
-			eprintln('"$arg" does not exist. Skipping...')
+			eprintln('"${arg}" does not exist. Skipping...')
 			continue
 		}
 
 		if os.is_dir(arg) {
 
 			if verbose {
-				println('DEBUG: "$arg" is a directory')
+				println('DEBUG: "${arg}" is a directory')
 			}
 
 			if directory {
@@ -73,7 +73,7 @@ fn main() {
 					}
 
 					os.rmdir_all(arg) or { 
-						eprintln('Failed to remove all directories inside "$arg" (and itself). Error: $err')
+						eprintln('Failed to remove all directories inside "${arg}" (and itself). Error: ${err}')
 					}
 				} else {
 
@@ -83,17 +83,17 @@ fn main() {
 
 					if is_directory_empty(arg) {
 						if verbose {
-							println('DEBUG: "$arg" is empty, continuing with directory deletion')
+							println('DEBUG: "${arg}" is empty, continuing with directory deletion')
 						}
 						os.rmdir(arg) or {
-							eprintln('Failed to remove directory "$arg". Error: $err')
+							eprintln('Failed to remove directory "${arg}". Error: ${err}')
 						}
 					} else {
-						eprintln('"$arg" is not empty. Use the --force flag to remove this directory.')
+						eprintln('"${arg}" is not empty. Use the --force flag to remove this directory.')
 					}
 				}
 			} else {
-				eprintln('"$arg" is a directory but the --directory flag was not specified')
+				eprintln('"${arg}" is a directory but the --directory flag was not specified')
 			}
 			continue
 		}
@@ -101,11 +101,11 @@ fn main() {
 		if os.is_file(arg){
 
 			if verbose {
-				println('DEBUG: "$arg" is a file')
+				println('DEBUG: "${arg}" is a file')
 			}
 
 			if directory {
-				eprintln('"$arg" is a file but the --directory flag was specified')
+				eprintln('"${arg}" is a file but the --directory flag was specified')
 			} else {
 
 				if verbose {
@@ -113,7 +113,7 @@ fn main() {
 				}
 
 				os.rm(arg) or { 
-					eprintln('Failed to remove "$arg". Error: $err')
+					eprintln('Failed to remove "${arg}". Error: ${err}')
 				}
 			}
 			continue
