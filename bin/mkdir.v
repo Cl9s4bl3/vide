@@ -10,7 +10,7 @@ fn main(){
 
 	if args.len < 1 {
 		eprintln("Not enough arguments provided")
-		exit(1)
+		exit(2)
 	}
 
 	mut non_flag_args := []string{}
@@ -20,7 +20,7 @@ fn main(){
 				"--overwrite" { overwrite = true }
 				"--verbose" { verbose = true }
 				else {
-					eprintln('Discarding invalid flag "$arg"')
+					eprintln('Discarding invalid flag "${arg}"')
 				}
 			}
 		} else {
@@ -32,41 +32,41 @@ fn main(){
 	for arg in args{
 
 		if verbose {
-			println('DEBUG: Processing "$arg"')
+			println('DEBUG: Processing "${arg}"')
 		}
 
 		if os.exists(arg) && !overwrite{
-			eprintln('"$arg" already exists. Skipping...')
+			eprintln('"${arg}" already exists. Skipping...')
 			continue
 		}
 
 		if overwrite {
 
 			if verbose {
-				println('DEBUG: "$arg" is being overwritten')
+				println('DEBUG: "${arg}" is being overwritten')
 			}
 
 			if !os.is_dir(arg){
-				eprintln('"$arg" isn\'t a directory. Skipping...')
+				eprintln('"${arg}" isn\'t a directory. Skipping...')
 				continue
 			}
 
 			if verbose {
-				println('DEBUG: "$arg" is being deleted (to be overwritten)')
+				println('DEBUG: "${arg}" is being deleted (to be overwritten)')
 			}
 
 			os.rmdir_all(arg) or { 
-				eprintln('Failed to remove "$arg". Error $err')
+				eprintln('Failed to remove "${arg}". Error ${err}')
 				continue
 			}
 		}
 
 		if verbose {
-			println('DEBUG: Making directory: "$arg"')
+			println('DEBUG: Making directory: "${arg}"')
 		}
 		
 		os.mkdir(arg) or { 
-			eprintln('Failed to create "$arg". Error $err')
+			eprintln('Failed to create "${arg}". Error ${err}')
 			continue
 		}
 	}

@@ -10,7 +10,7 @@ fn main(){
 
 	if args.len < 1 {
 		eprintln("Not enough arguments provided")
-		exit(1)
+		exit(2)
 	}
 
 	mut non_flag_args := []string{}
@@ -20,7 +20,7 @@ fn main(){
 				"--overwrite" { overwrite = true }
 				"--verbose" { verbose = true }
 				else {
-					eprintln('Discarding invalid flag "$arg"')
+					eprintln('Discarding invalid flag "${arg}"')
 				}
 			}
 		} else {
@@ -32,20 +32,20 @@ fn main(){
 	for arg in args {
 
 		if verbose {
-			println('DEBUG: Processing "$arg"')
+			println('DEBUG: Processing "${arg}"')
 		}
 
 		if os.exists(arg) && !overwrite {
-			eprintln('"$arg" already exists. Skipping...')
+			eprintln('"${arg}" already exists. Skipping...')
 			continue
 		}
 
 		if verbose {
-			println('DEBUG: Creating "$arg"')
+			println('DEBUG: Creating "${arg}"')
 		}
 
 		os.create(arg) or { 
-			eprintln('Failed to create "$arg". Error: $err')
+			eprintln('Failed to create "${arg}". Error: ${err}')
 			continue
 		}
 	}
