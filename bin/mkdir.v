@@ -56,7 +56,7 @@ fn main(){
 			}
 
 			os.rmdir_all(arg) or { 
-				eprintln('Failed to remove "${arg}". Error ${err}')
+				eprintln('Failed to remove "${arg}". Error: ${err}')
 				continue
 			}
 		}
@@ -66,7 +66,7 @@ fn main(){
 		}
 		
 		os.mkdir(arg) or { 
-			eprintln('Failed to create "${arg}". Error ${err}')
+			eprintln('Failed to create "${arg}". Error: ${err}')
 			continue
 		}
 	}

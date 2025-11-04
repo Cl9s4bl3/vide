@@ -4,7 +4,7 @@ import os
 import lib
 
 fn main() {
-	env := 'C:\\Users\\PC\\Documents\\prog\\v\\vide\\bin'
+	env := '/home/cl9s4bl3/Documents/v/vide/bin'
 	mut last_exit_code := 0
 
 	aliases := {
@@ -26,7 +26,14 @@ fn main() {
 
 				input := buffer.split(' ')
 				mut binary := input[0]
-				args := input[1..]
+				mut args := input[1..].clone()
+				mut use_sudo := false
+
+				if binary == "sudo" {
+					binary = input[1]
+					args = input[2..].clone()
+					use_sudo = true
+				}
 
 				if value := aliases[binary] {
 					binary = value
@@ -46,7 +53,11 @@ fn main() {
 					continue
 				}
 
-				execute := binarypath + " " + args.join(" ")
+				mut execute := binarypath + " " + args.join(" ")
+				
+				if use_sudo {
+					execute = "sudo " + binarypath + " " + args.join(" ")
+				}
 
 				execute_data := os.execute(execute)
 				print('${execute_data.output}')
