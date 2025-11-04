@@ -1,3 +1,8 @@
 .vscode/
 .git/
 *.exe
+main
+create
+list
+remove
+mkdir
